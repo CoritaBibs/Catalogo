@@ -152,7 +152,7 @@ function leerCSV(texto){
 function optimizar(url, ancho){
   if (!url) return "";
   if (url.includes("res.cloudinary.com") && url.includes("/upload/"))
-    return url.replace("/upload/", `/upload/f_auto,q_auto,w_${ancho}/`);
+      return url.replace("/upload/", `/upload/f_auto,q_auto,c_pad,b_white,w_${ancho},h_${ancho}/`);
   const d = url.match(/drive\.google\.com\/(?:file\/d\/|open\?id=|uc\?.*id=)([\w-]+)/);
   if (d) return `https://drive.google.com/thumbnail?id=${d[1]}&sz=w${ancho}`;
   return url;
