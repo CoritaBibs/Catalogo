@@ -96,6 +96,7 @@ h1{color:var(--acento)}
 .may-un{font-size:.8rem;color:var(--suave);font-weight:700}
 .may-precio{font-size:1.2rem;font-weight:800;color:var(--acento);margin-top:6px}
 .may-cu{font-size:.72rem;color:var(--suave)}
+  .may-ahorro{display:inline-block;margin-top:8px;background:#E6F5EC;color:#1B7F4B;font-size:.72rem;font-weight:800;padding:3px 9px;border-radius:999px}
 .may-nota{font-size:.8rem;color:var(--suave);margin-top:14px}
 .prod{border-color:var(--linea)}   </style>
 </head>
@@ -145,6 +146,7 @@ const CONFIG = {
     mayoreo: {
     titulo: "Compra más, paga menos",
     detalle: "Válido para todos los baberos de algodón",
+          precioNormal: 14,
     niveles: [
       { cantidad: 3, precio: 13 },
       { cantidad: 6, precio: 12 },
@@ -342,6 +344,7 @@ function pintarMayoreo(){
         <div class="may-un">baberos</div>
         <div class="may-precio">${CONFIG.moneda} ${Number(n.precio).toFixed(2)}</div>
         <div class="may-cu">cada uno</div>
+                ${m.precioNormal && m.precioNormal > n.precio ? `<div class="may-ahorro">Ahorras ${CONFIG.moneda} ${Number.isInteger((m.precioNormal - n.precio) * n.cantidad) ? (m.precioNormal - n.precio) * n.cantidad : ((m.precioNormal - n.precio) * n.cantidad).toFixed(2)}</div>` : ""}
       </div>`).join("")}</div>
     <div class="may-nota">${m.nota}</div>`;
   caja.hidden = false;
