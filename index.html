@@ -83,6 +83,20 @@ h1{color:var(--acento)}
 #buscador{border:2px solid var(--acento-claro);background:#fff;margin-top:12px}
 .chip{border-color:#CFE5F7;color:var(--tinta)}
 .chip.activo{background:var(--acento);border-color:var(--acento);color:#fff}
+  #mayoreo{max-width:1100px;margin:14px auto 4px;padding:18px 14px 14px;border-radius:20px;background:linear-gradient(135deg,#FCE6ED,#E4F1FB);border:2px dashed #E7A9BE;text-align:center}
+#mayoreo[hidden]{display:none}
+.may-titulo{font-size:1.3rem;font-weight:800;color:var(--acento)}
+.may-sub{font-size:.9rem;font-weight:700;color:var(--tinta);margin:2px 0 16px}
+.may-fila{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.may-card{position:relative;background:#fff;border-radius:16px;padding:16px 6px 10px;border:2px solid #CFE5F7}
+.may-card.popular{border-color:var(--acento);transform:scale(1.05)}
+.may-tag{position:absolute;top:-10px;left:50%;transform:translateX(-50%);background:var(--acento);color:#fff;font-size:.68rem;font-weight:800;padding:3px 9px;border-radius:999px;white-space:nowrap}
+.may-tag.mejor{background:#2F7FB8}
+.may-cant{font-size:2rem;font-weight:800;line-height:1;color:var(--tinta)}
+.may-un{font-size:.8rem;color:var(--suave);font-weight:700}
+.may-precio{font-size:1.2rem;font-weight:800;color:var(--acento);margin-top:6px}
+.may-cu{font-size:.72rem;color:var(--suave)}
+.may-nota{font-size:.8rem;color:var(--suave);margin-top:14px}
 .prod{border-color:var(--linea)}   </style>
 </head>
 <body>
@@ -94,7 +108,8 @@ h1{color:var(--acento)}
     <input id="buscador" type="search" placeholder="Buscar productos..." aria-label="Buscar productos">
   </div>
 </header>
-<nav id="categorias" aria-label="Categorías"></nav>
+<section id="mayoreo" hidden></section>
+  <nav id="categorias" aria-label="Categorías"></nav>
 <main>
   <div id="grilla"></div>
   <div id="mas"></div>
@@ -127,6 +142,16 @@ const CONFIG = {
           logo: "https://res.cloudinary.com/bpf5mvor/image/upload/v1793847051/logo-corita-bibs.png",
   lema: "Baberos y accesorios con amor para tu bebé · Pedidos por WhatsApp",
   whatsapp: "51986723180",          // Código de país + número, sin + ni espacios (Perú = 51)
+    mayoreo: {
+    titulo: "Compra más, paga menos",
+    detalle: "Válido para todos los baberos de algodón",
+    niveles: [
+      { cantidad: 3, precio: 13 },
+      { cantidad: 6, precio: 12 },
+      { cantidad: 12, precio: 11 }
+    ],
+    nota: "Puedes combinar modelos. Te confirmamos tu pedido por WhatsApp."
+  },
   moneda: "S/",
   urlHoja: "https://docs.google.com/spreadsheets/d/e/2PACX-1vTUYnvGesAH4pUDiHS3I8GnphO74B6_MfSR6vU-0J3D8cwMIku37e9ru2LDpM11tIZZMmDLaM4wFgjv/pub?output=csv",
   pocasUnidades: 3,                 // Si el stock es igual o menor a este número, se muestra "Pocas unidades"
@@ -304,7 +329,25 @@ async function iniciar(){
     $("#msg").textContent = "No pudimos cargar el catálogo. Revisa tu conexión e inténtalo de nuevo.";
   }
 }
-iniciar();
+function pintarMayoreo(){
+  const m = CONFIG.mayoreo; if (!m) return;
+  const caja = $("#mayoreo");
+  caja.innerHTML = `
+    <div class="may-titulo">${m.titulo}</div>
+    <div class="may-sub">${m.detalle}</div>
+    <div class="may-fila">${m.niveles.map((n, i) => `
+      <div class="may-card ${i === 1 ? "popular" : ""}">
+        ${i === 1 ? '<span class="may-tag">Más popular</span>' : ""}${i === m.niveles.length - 1 ? '<span class="may-tag mejor">Mejor precio</span>' : ""}
+        <div class="may-cant">${n.cantidad}</div>
+        <div class="may-un">baberos</div>
+        <div class="may-precio">${CONFIG.moneda} ${Number(n.precio).toFixed(2)}</div>
+        <div class="may-cu">cada uno</div>
+      </div>`).join("")}</div>
+    <div class="may-nota">${m.nota}</div>`;
+  caja.hidden = false;
+}
+pintarMayoreo();
+  iniciar();
 </script>
 </body>
 </html>
