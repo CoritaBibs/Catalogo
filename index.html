@@ -342,9 +342,9 @@ function pintarMayoreo(){
         ${i === 1 ? '<span class="may-tag">Más popular</span>' : ""}${i === m.niveles.length - 1 ? '<span class="may-tag mejor">Mejor precio</span>' : ""}
         <div class="may-cant">${n.cantidad}</div>
         <div class="may-un">baberos</div>
-        <div class="may-precio">${CONFIG.moneda} ${Number(n.precio).toFixed(2)}</div>
-        <div class="may-cu">cada uno</div>
-                ${m.precioNormal && m.precioNormal > n.precio ? `<div class="may-ahorro">Ahorras ${CONFIG.moneda} ${Number.isInteger((m.precioNormal - n.precio) * n.cantidad) ? (m.precioNormal - n.precio) * n.cantidad : ((m.precioNormal - n.precio) * n.cantidad).toFixed(2)}</div>` : ""}
+                       <div class="may-precio">por ${CONFIG.moneda} ${(n.cantidad * n.precio).toFixed(2).replace(".00", "")}</div>
+        <div class="may-cu">${CONFIG.moneda} ${Number(n.precio).toFixed(2).replace(".00", "")} cada uno</div>
+              ${m.precioNormal && m.precioNormal > n.precio ? `<div class="may-ahorro">Ahorras ${CONFIG.moneda} ${Number.isInteger((m.precioNormal - n.precio) * n.cantidad) ? (m.precioNormal - n.precio) * n.cantidad : ((m.precioNormal - n.precio) * n.cantidad).toFixed(2)}</div>` : ""}
       </div>`).join("")}</div>
     <div class="may-nota">${m.nota}</div>`;
   caja.hidden = false;
